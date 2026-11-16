@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.test import TestCase
 
-from .models import Pokemon
+from pokemon_app.models import Pokemon
 
 
 class PokemonModelTests(TestCase):
