@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'pokemon_app',
+    'move_app',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +132,5 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+FIXTURE_DIRS = [BASE_DIR / "tests" / "fixtures"]

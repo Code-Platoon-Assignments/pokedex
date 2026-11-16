@@ -4,7 +4,7 @@ from django.test import TestCase
 
 from pokemon_app.models import Pokemon
 from pokemon_app.serializers import PokemonSerializer
-from pokemon_app.tests.answers import (
+from tests.answers import (
     TEST_SERIALIZING_EVERY_POKEMON,
     TEST_SERIALIZING_ONE_POKEMON_ANSWER,
 )
@@ -65,6 +65,7 @@ class PokemonSerializerTests(TestCase):
                 "description": "It stores electricity in the electric sacs on its cheeks.",
                 "captured": False,
                 "date_encountered": "2026-02-14",
+                "current_moves": [],
             },
         )
 
@@ -123,7 +124,7 @@ class PokemonSerializerTests(TestCase):
 
 
 class PokemonFixtureTests(TestCase):
-    fixtures = ["pokemon_data.json"]
+    fixtures = ["pokemon_data.json", "move_data.json", "pokemon_move_data.json"]
 
     def test_fixture_loads_every_pokemon(self):
         self.assertEqual(Pokemon.objects.count(), 5)
@@ -143,5 +144,5 @@ class PokemonFixtureTests(TestCase):
         for pokemon in serializer.data:
             self.assertEqual(
                 list(pokemon),
-                ["id", "name", "level", "type", "description", "captured", "date_encountered"],
+                ["id", "name", "level", "type", "description", "captured", "date_encountered", "current_moves"],
             )

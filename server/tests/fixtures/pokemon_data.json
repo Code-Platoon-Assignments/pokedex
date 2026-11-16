@@ -1,0 +1,62 @@
+[
+{
+  "model": "pokemon_app.pokemon",
+  "pk": 1,
+  "fields": {
+    "name": "Pikachu",
+    "level": 13,
+    "type": "electric",
+    "description": "Unknown",
+    "captured": true,
+    "date_encountered": "2026-11-09"
+  }
+},
+{
+  "model": "pokemon_app.pokemon",
+  "pk": 2,
+  "fields": {
+    "name": "Bulbasaur",
+    "level": 5,
+    "type": "grass",
+    "description": "Unknown",
+    "captured": false,
+    "date_encountered": "2026-11-09"
+  }
+},
+{
+  "model": "pokemon_app.pokemon",
+  "pk": 3,
+  "fields": {
+    "name": "Charizard",
+    "level": 36,
+    "type": "fire",
+    "description": "Unknown",
+    "captured": false,
+    "date_encountered": "2026-11-09"
+  }
+},
+{
+  "model": "pokemon_app.pokemon",
+  "pk": 4,
+  "fields": {
+    "name": "Mew",
+    "level": 1,
+    "type": "normal",
+    "description": "Unknown",
+    "captured": false,
+    "date_encountered": "2026-11-09"
+  }
+},
+{
+  "model": "pokemon_app.pokemon",
+  "pk": 6,
+  "fields": {
+    "name": "Snorlax",
+    "level": 30,
+    "type": "normal",
+    "description": "It eats nearly 900 pounds of food every day.",
+    "captured": false,
+    "date_encountered": "2026-11-09"
+  }
+}
+]

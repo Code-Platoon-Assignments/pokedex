@@ -1,0 +1,35 @@
+[
+{
+  "model": "move_app.move",
+  "pk": 1,
+  "fields": {
+    "name": "Thunderbolt",
+    "type": "electric",
+    "power": 90,
+    "pp": 15,
+    "description": "A strong electric blast that may also leave the target paralyzed."
+  }
+},
+{
+  "model": "move_app.move",
+  "pk": 2,
+  "fields": {
+    "name": "Quick Attack",
+    "type": "normal",
+    "power": 40,
+    "pp": 30,
+    "description": "An extremely fast attack that always strikes first."
+  }
+},
+{
+  "model": "move_app.move",
+  "pk": 3,
+  "fields": {
+    "name": "Thunder Shock",
+    "type": "electric",
+    "power": 40,
+    "pp": 30,
+    "description": "A jolt of electricity that may also leave the target paralyzed."
+  }
+}
+]
