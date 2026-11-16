@@ -46,5 +46,17 @@
     "captured": false,
     "date_encountered": "2026-11-16"
   }
+},
+{
+  "model": "pokemon_app.pokemon",
+  "pk": 6,
+  "fields": {
+    "name": "Snorlax",
+    "level": 30,
+    "type": "normal",
+    "description": "It eats nearly 900 pounds of food every day.",
+    "captured": false,
+    "date_encountered": "2026-11-16"
+  }
 }
 ]
