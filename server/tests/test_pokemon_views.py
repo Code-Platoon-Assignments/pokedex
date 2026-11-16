@@ -9,10 +9,15 @@ from tests.answers import (
     TEST_SERIALIZING_EVERY_POKEMON,
     TEST_SERIALIZING_ONE_POKEMON_ANSWER,
 )
+from trainer_app.models import Trainer
 
 
 class PokemonViewTests(APITestCase):
     fixtures = ["pokemon_data.json", "move_data.json", "pokemon_move_data.json"]
+
+    def setUp(self):
+        trainer = Trainer.objects.create_user("ash@pokedex.com", "pikachu123")
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {trainer.auth_token.key}")
 
     def test_get_all_pokemon(self):
         response = self.client.get(reverse("all_pokemon"))
@@ -124,6 +129,10 @@ class PokemonViewTests(APITestCase):
 
 class PokemonMoveViewTests(APITestCase):
     fixtures = ["pokemon_data.json", "move_data.json", "pokemon_move_data.json"]
+
+    def setUp(self):
+        trainer = Trainer.objects.create_user("ash@pokedex.com", "pikachu123")
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {trainer.auth_token.key}")
 
     def test_get_a_pokemon_move(self):
         url = reverse("a_pokemon_move", kwargs={"poke_id": 1, "move_id": 1})

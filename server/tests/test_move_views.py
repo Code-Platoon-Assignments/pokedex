@@ -4,10 +4,15 @@ from rest_framework.test import APITestCase
 
 from move_app.models import Move
 from tests.answers import TEST_GET_A_MOVE_ANSWER
+from trainer_app.models import Trainer
 
 
 class MoveViewTests(APITestCase):
     fixtures = ["move_data.json"]
+
+    def setUp(self):
+        trainer = Trainer.objects.create_user("ash@pokedex.com", "pikachu123")
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {trainer.auth_token.key}")
 
     def test_get_all_moves(self):
         response = self.client.get(reverse("all_moves"))
@@ -77,3 +82,47 @@ class MoveViewTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
         self.assertEqual(Move.objects.count(), 3)
+
+
+class UnauthenticatedMoveTests(APITestCase):
+    fixtures = ["move_data.json"]
+
+    def test_anyone_can_read(self):
+        response = self.client.get(reverse("all_moves"))
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(response.data), Move.objects.count())
+
+    def test_anonymous_post_is_rejected(self):
+        response = self.client.post(
+            reverse("all_moves"),
+            {"name": "Tackle", "type": "normal", "power": 40, "pp": 35, "description": "A full body charge."},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(Move.objects.count(), 3)
+
+    def test_anonymous_put_is_rejected(self):
+        response = self.client.put(
+            reverse("a_move", kwargs={"id": 1}),
+            {"name": "Tackle", "type": "normal", "power": 40, "pp": 35, "description": "A full body charge."},
+            format="json",
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(Move.objects.get(id=1).name, "Thunderbolt")
+
+    def test_anonymous_patch_is_rejected(self):
+        response = self.client.patch(
+            reverse("a_move", kwargs={"id": 1}), {"power": 10}, format="json"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(Move.objects.get(id=1).power, 90)
+
+    def test_anonymous_delete_is_rejected(self):
+        response = self.client.delete(reverse("a_move", kwargs={"id": 1}))
+
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertTrue(Move.objects.filter(id=1).exists())

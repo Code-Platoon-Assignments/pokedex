@@ -16,3 +16,11 @@ class TrainerSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         return Trainer.objects.create_user(**validated_data)
+
+    def update(self, instance, validated_data):
+        password = validated_data.pop("password", None)
+        trainer = super().update(instance, validated_data)
+        if password:
+            trainer.set_password(password)
+            trainer.save()
+        return trainer
