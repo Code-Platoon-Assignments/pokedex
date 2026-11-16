@@ -19,3 +19,17 @@ class AMove(APIView):
         move = get_object_or_404(Move, id=id)
         serializer = MoveSerializer(move)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def put(self, request, id):
+        move = get_object_or_404(Move, id=id)
+        serializer = MoveSerializer(move, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def patch(self, request, id):
+        move = get_object_or_404(Move, id=id)
+        serializer = MoveSerializer(move, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)

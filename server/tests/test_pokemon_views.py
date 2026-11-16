@@ -51,6 +51,35 @@ class PokemonViewTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
+    # NOTE: Ideally we would test success and failure (400 and 404) for every update
+    # method on every view (APokemon, AMove, and APokemonMove), but time constraints
+    # for this lecture will not allow this. We test APokemon's patch method here.
+    def test_patch_a_pokemon(self):
+        url = reverse("a_pokemon", kwargs={"id": 3})
+        before = self.client.get(url).data
+
+        response = self.client.patch(url, {"level": 37, "captured": True}, format="json")
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data, {**before, "level": 37, "captured": True})
+        self.assertEqual(response.data["name"], "Charizard")
+
+    def test_patch_with_invalid_data_returns_400(self):
+        response = self.client.patch(
+            reverse("a_pokemon", kwargs={"id": 3}), {"level": 500}, format="json"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+        self.assertIn("level", response.data)
+        self.assertEqual(Pokemon.objects.get(id=3).level, 36)
+
+    def test_patch_unknown_pokemon_returns_404(self):
+        response = self.client.patch(
+            reverse("a_pokemon", kwargs={"id": 9999}), {"level": 37}, format="json"
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
 
 class PokemonMoveViewTests(APITestCase):
     fixtures = ["pokemon_data.json", "move_data.json", "pokemon_move_data.json"]
