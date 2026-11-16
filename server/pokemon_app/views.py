@@ -15,6 +15,12 @@ class AllPokemon(APIView):
         serializer = PokemonSerializer(pokemon, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def post(self, request):
+        serializer = PokemonSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class APokemon(APIView):
     def get(self, request, id):
@@ -35,6 +41,26 @@ class APokemon(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, id):
+        pokemon = get_object_or_404(Pokemon, id=id)
+        pokemon.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class APokemonMoves(APIView):
+    def get(self, request, poke_id):
+        pokemon = get_object_or_404(Pokemon, id=poke_id)
+        serializer = PokemonMoveSerializer(pokemon.current_moves.all(), many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def post(self, request, poke_id):
+        pokemon = get_object_or_404(Pokemon, id=poke_id)
+        data = {**request.data, "pokemon": pokemon.id}
+        serializer = PokemonMoveSerializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
 
 
 class APokemonMove(APIView):
@@ -61,3 +87,9 @@ class APokemonMove(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, poke_id, move_id):
+        pokemon = get_object_or_404(Pokemon, id=poke_id)
+        pokemon_move = get_object_or_404(pokemon.current_moves.all(), id=move_id)
+        pokemon_move.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

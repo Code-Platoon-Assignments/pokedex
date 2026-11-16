@@ -13,6 +13,12 @@ class AllMoves(APIView):
         serializer = MoveSerializer(moves, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+    def post(self, request):
+        serializer = MoveSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 class AMove(APIView):
     def get(self, request, id):
@@ -33,3 +39,8 @@ class AMove(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+    def delete(self, request, id):
+        move = get_object_or_404(Move, id=id)
+        move.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
