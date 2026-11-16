@@ -15,8 +15,17 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.http import HttpResponse
+from django.urls import include, path
+
+
+def home(request):
+    return HttpResponse("<h1>Django RESTful API</h1>")
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', home, name='index'),
+    path('api/v1/pokemon/', include('pokemon_app.urls')),
+    path('api/v1/moves/', include('move_app.urls')),
 ]
