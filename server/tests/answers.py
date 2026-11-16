@@ -49,3 +49,17 @@ TEST_SERIALIZING_ONE_POKEMON_ANSWER = {
     ],
 }
 TEST_SERIALIZING_EVERY_POKEMON = ["Pikachu", "Bulbasaur", "Charizard", "Mew", "Snorlax"]
+TEST_GET_A_MOVE_ANSWER = {
+    "id": 1,
+    "name": "Thunderbolt",
+    "description": "A strong electric blast that may also leave the target paralyzed.",
+    "type": "electric",
+    "power": 90,
+    "pp": 15,
+}
+TEST_GET_A_POKEMON_MOVE_ANSWER = {
+    "id": 1,
+    "move": TEST_GET_A_MOVE_ANSWER,
+    "current_pp": 15,
+    "disabled": False,
+}
