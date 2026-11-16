@@ -38,8 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'pokemon_app',
     'move_app',
+    'trainer_app',
 ]
 
 MIDDLEWARE = [
@@ -132,5 +134,7 @@ MAILERS = {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
 }
+
+AUTH_USER_MODEL = 'trainer_app.Trainer'
 
 FIXTURE_DIRS = [BASE_DIR / "tests" / "fixtures"]
